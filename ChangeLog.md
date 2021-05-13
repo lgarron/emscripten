@@ -31,6 +31,17 @@ See docs/process.md for more on how version tagging works.
   overflow will trap rather corrupting global data first).  This should not
   be a user-visible change (unless your program does something very odd such
   depending on the specific location of stack data in memory). (#18154)
+- Default value for `STACK_SIZE` (the size of the wasm shadow stack) was reduced
+  from 5MB to 64KB.  Project that use more that 64Kb of stack will now have to
+  start specifying `-sSTACK_SIZE` at link time.  To aid in debugging, as of
+  #18154, we now also place the stack first in memory in debug builds so that
+  overflows will be immediately detected, and result in runtime errors.
+  This change brings emscripten into line with wasm-ld and wasi-sdk defaults.
+  In general, WebAssembly stack usage should be lower than on other platforms
+  since a lot of state normally stores on the stack is hidden from the runtime
+  and doesn't use the shadow stack at all.
+  The default for `DEFAULT_PTHREAD_STACK_SIZE` was also reduced from 2MB to 64KB
+  to match.
 
 3.1.25 - 11/08/22
 -----------------
