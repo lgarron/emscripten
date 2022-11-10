@@ -20,6 +20,12 @@ See docs/process.md for more on how version tagging works.
 
 3.1.26 (in development)
 -----------------------
+- C functions related to the entire wasm memory were moved from `heap.h` to
+  `memory.h` and renamed.  The old names continue to work as aliases and
+  semantics have not changed:
+    emscripten_resize_heap -> emscripten_memory_resize
+    emscripten_get_heap_size -> emscripten_memory_get_size
+    emscripten_get_heap_max -> emscripten_memory_get_max
 - Added `--reproduce` command line flag (or equivalently `EMCC_REPRODUCE`
   environment variable).  This options specifies the name of a tar file into
   which emscripten will copy all of the input files along with a response file
